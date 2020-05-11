@@ -1,0 +1,6 @@
+credentials.json
+sift_matches/
+sift_keypoints.jpg
+.vscode/
+__pycache__
+calibration_images/*
