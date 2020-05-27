@@ -11,6 +11,7 @@ Code structure is the following:
     * https://github.com/chrischoy/3D-R2N2
     * https://paperswithcode.com/paper/learning-efficient-point-cloud-generation-for
     * https://paperswithcode.com/paper/photometric-mesh-optimization-for-video
+    * https://www.sciencedirect.com/science/article/abs/pii/S0141933112000750 (I think this is the deffinitive one)
 
 
 * Represent 3D model into a [virtual enviroment](https://github.com/carlesanton/3d-environment) where videogame-like navigation is possible.
