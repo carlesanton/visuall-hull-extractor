@@ -2,9 +2,9 @@ import os
 import cv2
 import argparse
 
-from sift import compute_sift_points_for_template_and_calibration_images, match_sift_points, save_all_keypoint_matches_images
-from homography import compute_homography_for_all_calibration_images
-from camera_utils import compute_internal_params, compute_external_params_for_all_images, plot_cameras
+from visuall_hull_extractor.utils.sift import compute_sift_points_for_template_and_calibration_images, match_sift_points, save_all_keypoint_matches_images
+from visuall_hull_extractor.utils.homography import compute_homography_for_all_calibration_images
+from visuall_hull_extractor.utils.camera_utils import compute_intrinsic_params, compute_extrinsic_params_for_all_images, plot_cameras
 
 def load_images(calibration_images_folder_path):
     extensions = ['jpg', 'jpeg', 'png', 'tiff']
@@ -24,9 +24,9 @@ def load_images(calibration_images_folder_path):
     return template_image, calibration_images
 
  
-def get_calibration_matrix_and_external_params(args):
+def get_calibration_matrix_and_external_params(calibration_folder: str):
 
-    template_image, calibration_images = load_images(args.calibration_folder)
+    template_image, calibration_images = load_images(calibration_folder)
 
     template_points, calibration_points = compute_sift_points_for_template_and_calibration_images(template_image, calibration_images)
 
@@ -34,13 +34,13 @@ def get_calibration_matrix_and_external_params(args):
     
     homographies, inliers_masks = compute_homography_for_all_calibration_images(matches, template_points, calibration_points)
 
-    save_all_keypoint_matches_images(template_image, calibration_images, template_points['keypoints'], calibration_points, matches, inliers_masks, homographies)
+    #save_all_keypoint_matches_images(template_image, calibration_images, template_points['keypoints'], calibration_points, matches, inliers_masks, homographies)
 
-    camera_parameters = compute_internal_params(homographies)
+    camera_intrisic_parameters = compute_intrinsic_params(homographies)
 
-    external_parameters_list = compute_external_params_for_all_images(camera_parameters, homographies)
+    external_parameters_list = compute_extrinsic_params_for_all_images(camera_intrisic_parameters, homographies)
 
-    plot_cameras(external_parameters_list)
+    return camera_intrisic_parameters, external_parameters_list
     
 
 

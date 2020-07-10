@@ -5,19 +5,17 @@ from matplotlib import pyplot as plt
 
 from mpl_toolkits.mplot3d import Axes3D
 
-def compute_internal_params(all_homographies):
+def compute_intrinsic_params(all_homographies):
     # Compute linear system of equations to compute IAC
     A = np.zeros((2 * len(all_homographies), 6),dtype=float)
     for i in range(len(all_homographies)):
-        h = all_homographies[i]
-        #v12
+        h = all_homographies[i]        #v12
         A[2*i,:]=np.array([h[0,0] * h[0,1], 
                     h[0,0] * h[1,1] + h[1,0] * h[0,1], 
                     h[0,0] * h[2,1] + h[2,0] * h[0,1], 
                     h[1,0] * h[1,1], 
                     h[1,0] * h[2,1] + h[2,0] * h[1,1], 
                     h[2,0] * h[2,1]])
-        #v11-v22
         A[2*i+1,:]=np.array([h[0,0] * h[0,0], 
                     h[0,0] * h[1,0] + h[1,0] * h[0,0], 
                     h[0,0] * h[2,0] + h[2,0] * h[0,0], 
@@ -37,14 +35,13 @@ def compute_internal_params(all_homographies):
                   [omega[1], omega[3], omega[4] ],   
                   [omega[2], omega[4], omega[5] ] ])
     # Get calibration maatrix by Cholesky decomposition
-    print(np.linalg.eigvalsh(w))
 
     K = np.linalg.cholesky(w)
     K = K/K[2,2]
 
     return K
 
-def compute_external_params(K,h):
+def compute_extrinsic_params(K,h):
 
     r1 = np.linalg.inv(K).dot(h[:,0])
     r2 = np.linalg.inv(K).dot(h[:,1])
@@ -71,10 +68,10 @@ def compute_external_params(K,h):
     P = K.dot(rrr)
 
 
-    return (R, t, P)
+    return R, t, P
 
-def compute_external_params_for_all_images(camera_parameters, all_homographies):
-    external_parameters_list = [compute_external_params(camera_parameters,homography) for homography in all_homographies]
+def compute_extrinsic_params_for_all_images(camera_parameters, all_homographies):
+    external_parameters_list = [compute_extrinsic_params(camera_parameters,homography) for homography in all_homographies]
     
     return external_parameters_list
 
@@ -93,6 +90,3 @@ def plot_cameras(external_params):
     #plt.savefig('foo.png')
     matplotlib.pyplot.show()
     a=0
-
-    
-    
