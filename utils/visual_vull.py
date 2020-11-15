@@ -140,8 +140,13 @@ class VHullTextured(TextureObject):
 
         self.u_view_matrix_model_cam_1 = glGetUniformLocation(self.shader.program, "view_matrix_model_cam_1")
         glUniformMatrix4fv(self.u_view_matrix_model_cam_1, 1, GL_FALSE, self.modeling_cameras[0].get_view_matrix())
+        self.u_view_matrix_model_cam_2 = glGetUniformLocation(self.shader.program, "view_matrix_model_cam_2")
+        glUniformMatrix4fv(self.u_view_matrix_model_cam_2, 1, GL_FALSE, self.modeling_cameras[1].get_view_matrix())
+        
         self.u_view_matrix_model_cam_1 = glGetUniformLocation(self.shader.program, "projection_matrix_model_cam_1")
         glUniformMatrix4fv(self.u_view_matrix_model_cam_1, 1, GL_FALSE, self.modeling_cameras[0].get_projection_matrix())
+        self.u_view_matrix_model_cam_2 = glGetUniformLocation(self.shader.program, "projection_matrix_model_cam_2")
+        glUniformMatrix4fv(self.u_view_matrix_model_cam_2, 1, GL_FALSE, self.modeling_cameras[1].get_projection_matrix())
 
         glBindVertexArray(0)
         self.shader.disable()
