@@ -13,9 +13,6 @@ out vec2 pixel_in_uv_coord_cam_2;
 
 void main(){
 
-    // vec4 point_in_cam1_coordinates = view_matrix_model_cam_1 * vec4(vert, 1.0);
-    // vec4 point_in_screen_1 =  projection_matrix_model_cam_1 * view_matrix_model_cam_1 * vec4(vert, 1.0);
-    // vec4 point_in_screen_1 =  vec4(vert, 1.0) * view_matrix_model_cam_1 * projection_matrix_model_cam_1;
     vec4 point_in_screen_1 =  projection_matrix_model_cam_1 * view_matrix_model_cam_1 * vec4(vert, 0.0);
     vec4 point_in_screen_2 =  projection_matrix_model_cam_2 * view_matrix_model_cam_2 * vec4(vert, 0.0);
 
